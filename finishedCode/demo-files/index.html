@@ -1,0 +1,190 @@
+<!-- DOCUMENT STRUCTURE -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TasksSimplified</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- HEADER SECTION -->
+    <header>
+      <div class="logo">
+        <img src="./assets/logo.png" alt="TasksSimplified Logo" />
+        TasksSimplified
+      </div>
+      <div class="search-container">
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Search your task here..."
+        />
+        <button class="search-button">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="date-display">
+        <div class="day" id="currentDay">Tuesday</div>
+        <div class="full-date" id="currentDate">20/06/2023</div>
+      </div>
+    </header>
+
+    <!-- MAIN CONTAINER STRUCTURE -->
+
+    <div class="container">
+      <!-- SIDEBAR WITH PROFILE -->
+      <div class="sidebar">
+        <div class="profile">
+          <div class="profile-img">
+            <img src="./assets/profile.jpg" alt="Profile" />
+          </div>
+          <div class="profile-name">Bella Whiskers</div>
+          <div class="profile-email">bella@meow.com</div>
+        </div>
+        <button class="sidebar-button">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            style="margin-right: 10px"
+          >
+            <path
+              d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+            ></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+          My Tasks
+        </button>
+      </div>
+
+      <div class="main-content">
+        <!-- TASK COLUMN -->
+        <div class="tasks-column">
+          <div class="column-header-container">
+            <h2 class="column-header">My Tasks</h2>
+            <button class="add-task-circle-btn" id="addTaskBtn">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </button>
+          </div>
+
+          <div class="tasks-wrapper">
+            <!-- Task cards will be generated here by JavaScript -->
+          </div>
+        </div>
+
+        <!-- TASK DETAILS PANEL -->
+        <div class="task-details">
+          <!-- Task details will be shown here by JavaScript -->
+        </div>
+      </div>
+    </div>
+
+    <!-- TASK MODAL -->
+    <div id="taskModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="modalTitle">Add New Task</h2>
+          <a href="#" class="go-back" id="closeModalBtn">Go Back</a>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="taskTitle">Title</label>
+            <input type="text" id="taskTitle" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="taskDate">Date</label>
+            <div class="date-input-container">
+              <input type="text" id="taskDate" class="form-input" />
+              <span class="calendar-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+              </span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Priority</label>
+            <div class="priority-options">
+              <div class="priority-option">
+                <span class="priority-dot extreme"></span>
+                <span>Extreme</span>
+                <input type="radio" name="priority" value="extreme" />
+              </div>
+              <div class="priority-option">
+                <span class="priority-dot moderate"></span>
+                <span>Moderate</span>
+                <input type="radio" name="priority" value="moderate" />
+              </div>
+              <div class="priority-option">
+                <span class="priority-dot low"></span>
+                <span>Low</span>
+                <input type="radio" name="priority" value="low" checked />
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="taskDescription">Task Description</label>
+            <textarea
+              id="taskDescription"
+              class="textarea-input"
+              placeholder="Start writing here..."
+            ></textarea>
+          </div>
+          <button class="done-btn" id="saveTaskBtn">Done</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCRIPT INCLUSION -->
+    <script src="script.js"></script>
+  </body>
+</html>
