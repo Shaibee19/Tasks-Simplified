@@ -31,12 +31,12 @@ const taskTitleInput = document.getElementById("taskTitle");
 const taskDateInput = document.getElementById("taskDate");
 const taskDescriptionInput = document.getElementById("taskDescription");
 const saveTaskBtn = document.getElementById("saveTaskBtn");
-const tasksWrapper = document.getElementById(".tasks__wrapper");
-const taskDetailsPanel = document.getElementById(".task__details");
+const tasksWrapper = document.querySelector(".tasks__wrapper");
+const taskDetailsPanel = document.querySelector(".tasks__details");
 const addTaskBtn = document.getElementById("addTaskBtn");
 const closeModalBtn = document.getElementById("closeModalBtn");
-const searchInput = document.getElementById(".search__input");
-const searchButton = document.getElementById(".search__button");
+const searchInput = document.querySelector(".search__input");
+const searchButton = document.querySelector(".search__button");
 
 document.addEventListener("DOMContentLoaded", function () {
   // Set current date in header
@@ -181,7 +181,7 @@ function selectTask(taskID) {
                     stroke-linecap="round"
                     stroke-linejoin="round">
                     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                    <path d=M18.5 2.5a2.121 2.121 0 0 1 3 3L12 14l-4 1 1-4 9.5-9.5z"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                 </svg>
             </button>
             <button class="action__btn btn__primary" id="deleteCurrentTaskBtn">
@@ -324,7 +324,7 @@ function saveTask() {
         return;
     }
 
-    let selectedPriority = "low";
+    let selectedPriority = "Low";
     document.querySelectorAll('input[name="priority"]').forEach((radio) => {
         if (radio.checked) {
             selectedPriority = radio.value.charAt(0).toUpperCase() + radio.value.slice(1);
@@ -347,7 +347,7 @@ function saveTask() {
         selectTask(newTask.id);
     } else {
         const taskIndex = tasks.findIndex((t) => t.id === editingTaskId);
-        if (taskIndex) !== -1 {
+        if (taskIndex !== -1) {
             tasks[taskIndex].title = taskTitleInput.value.trim();
             tasks[taskIndex].description = taskDescriptionInput.value.trim();
             tasks[taskIndex].priority = selectedPriority;
@@ -359,4 +359,54 @@ function saveTask() {
     }
 
     closeModal();
+}
+
+// Delete
+function deleteTask(taskID) {
+    if (!confirm("Are you sure you want to delete this task completely?")) return;
+
+    const taskIndex = tasks.findIndex((t) => t.id === taskID);
+    if (taskIndex === -1) return;
+
+    tasks.splice(taskIndex, 1);
+
+    renderTasks();
+
+    if(tasks.length > 0) {
+        selectTask(tasks[0].id);
+    } else {
+        showEmptyState();
+    }
+}
+
+// Search
+function searchTasks() {
+    const searchTerm = searchInput.value.toLowerCase().trim();
+
+    if(searchTerm === "") {
+        renderTasks();
+        if(tasks.length > 0) {
+            selectTask(tasks[0].id);
+        }
+        return;
+    }
+
+    const filteredTasks = tasks.filter((task) => task.title.toLowerCase().includes(searchTerm));
+
+    if (filteredTasks.length === 0) {
+        tasksWrapper.innerHTML = `
+            <div class="empty__state">
+                <p>No tasks match your search. Try a different query.</p>
+            </div>
+            `;
+        taskDetailsPanel.innerHTML = "";
+    } else {
+        tasksWrapper.innerHTML = "";
+        filteredTasks.forEach((task) => {
+            const taskCard = createTaskCard(task);
+            tasksWrapper.appendChild(taskCard);
+        });
+
+        selectTask(filteredTasks[0].id);
+    }
 }
